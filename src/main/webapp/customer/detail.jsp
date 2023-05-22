@@ -3,15 +3,18 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
 	// 요청 URL - http://localhost/app3/customer/detail.jsp?id=xxx
+	// 요청 URL - http://localhost/app3/customer/detail.jsp?id=xxx&err=fail
 
 	// 요청파라미터 조회
-	 String id = request.getParameter("id");
+	String id = request.getParameter("id");
+	String err = request.getParameter("err");
 	
 	// 업무로직 수행 - 요청 파라미터로 전달받은 상품번호에 해당하는 상품 상세정보 조회하기
 	CustomerDao dao = new CustomerDao();
 	Customer customer = dao.getCustomerById(id);
-
+	
 %>
+
 <!doctype html>
 <html lang="ko">
 <head>
@@ -50,6 +53,16 @@
 		<div class="col-12">
 			<p>고객의 상세정보를 확인하세요.</p>
 			
+<% 
+	if("fail".equals(err)) {
+%>
+			<div class="alert alert-danger">
+				<strong>삭제 실패</strong> 사용중인 고객의 정보는 삭제할 수 없습니다.
+			</div>
+<% 
+	} 
+%>
+			
 			<table class="table table-bordered">
 				<colgroup>
 					<col width="10%">
@@ -74,7 +87,7 @@
 						<th class="table-dark">적립포인트</th>
 						<td><%=customer.getPoint() %></td>
 						<th class="table-dark">탈퇴여부</th>
-						<td><%=customer.getDisabled() %></td>
+						<td><%="No".equals(customer.getDisabled()) ? "<span class='badge text-bg-success'>사용중</span>" : "<span class='badge text-bg-secondary'>탈퇴</span>" %></td>
 					</tr>
 					<tr>
 						<th class="table-dark">가입일자</th>
@@ -85,7 +98,13 @@
 				</tbody>
 			</table>
 			<div class="text-end">
+<%
+	if("Yes".equals(customer.getDisabled())){
+%>
 				<a href="delete.jsp?id=<%=customer.getId() %>" class="btn btn-danger btn-sm">삭제</a>
+<%
+	}
+%>
 				<a href="modifyform.jsp?id=<%=customer.getId() %>" class="btn btn-warning btn-sm">수정</a>
 				<a href="list.jsp" class="btn btn-primary btn-sm">목록</a>
 			</div>

@@ -27,7 +27,7 @@
 		<ul class="navbar-nav me-auto">
 			<li class="nav-item"><a class="nav-link" href="/app3/home.jsp">홈</a></li>
 			<li class="nav-item"><a class="nav-link active" href="/app3/product/list.jsp">상품관리</a></li>
-			<li class="nav-item"><a class="nav-link disabled" href="">고객 관리</a></li>
+			<li class="nav-item"><a class="nav-link active" href="/app3/customer/list.jsp">고객 관리</a></li>
 			<li class="nav-item"><a class="nav-link disabled" href="">게시판 관리</a></li>
 		</ul>
 	</div>
@@ -52,7 +52,9 @@
 				<tbody>
 					<tr>
 						<th>상품이름</th>
-						<td colspan="3"><strong class="text-danger"><%=product.getName() %></strong></td>
+						<td><strong class="text-danger"><%=product.getName() %></strong></td>
+						<th>카테고리</th>
+						<td><%=product.getCategory().getName() %></td>
 					</tr>
 					<tr>
 						<th>상품번호</th>
@@ -98,7 +100,7 @@
 				
 				수정 URL = http://localhost/app3/product/update.jsp
 			 -->	
-				<a href="" class="btn btn-warning btn-sm">수정</a>
+				<a href="modifyform.jsp?no=<%=product.getNo() %>" class="btn btn-warning btn-sm">수정</a>
 				
 				
 			<!-- 

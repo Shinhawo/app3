@@ -29,23 +29,24 @@ public class CustomerDao {
 		});
 	}
 	
-	public void updateCustDisabled(String id) {
+	public void updateCust(Customer customer) {
 		
-		DaoHelper.update("customerDao.updateCustDisabled", id);
+		DaoHelper.update("customerDao.updateCustDisabled", customer.getPassword(),
+														   customer.getTel(),
+														   customer.getEmail(),
+														   customer.getDisabled(),
+														   customer.getPoint(),
+														   customer.getId());
 	}
 	
-	
-	public void updateCustEnable(String id) {
-		
-		DaoHelper.update("customerDao.updateCustEnable", id);
-	}
-	
+
 	
 	public Customer getCustomerById(String id) {
 		
 		return DaoHelper.selectOne("customerDao.getCustomerById", rs -> {
 			Customer customer = new Customer();
 			customer.setId(rs.getString("cust_id"));
+			customer.setPassword(rs.getString("cust_password"));
 			customer.setName(rs.getString("cust_name"));
 			customer.setTel(rs.getString("cust_tel"));
 			customer.setEmail(rs.getString("cust_email"));
@@ -57,6 +58,25 @@ public class CustomerDao {
 			
 			return customer;
 		}, id);
+	}
+	
+	public Customer getCustomerByEmail(String email) {
+		
+		return DaoHelper.selectOne("customerDao.getCustomerByEmail", rs -> {
+			Customer customer = new Customer();
+			customer.setId(rs.getString("cust_id"));
+			customer.setPassword(rs.getString("cust_password"));
+			customer.setName(rs.getString("cust_name"));
+			customer.setTel(rs.getString("cust_tel"));
+			customer.setEmail(rs.getString("cust_email"));
+			customer.setDisabled(rs.getString("cust_disabled"));
+			customer.setPoint(rs.getInt("cust_point"));
+			customer.setCreate_Date(rs.getDate("cust_create_date"));
+			customer.setUpdate_Date(rs.getDate("cust_update_date"));
+			
+			
+			return customer;
+		}, email);
 	}
 	
 	public void deleteCustomerById(String id) {

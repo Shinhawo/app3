@@ -22,7 +22,7 @@ public class DaoHelper {
 		try {
 			// DaoHelper 클래스가 메모리에 로딩될 때
 			// Properties객체가 sql.properties 파일을 로딩한다.
-			prop.load(new FileInputStream("C:\\workspace\\web-workspace\\app3\\src\\main\\java\\dao\\sql.properties"));
+			prop.load(new FileInputStream("C:\\Users\\jhta\\git\\app3\\src\\main\\java\\dao\\sql.properties"));
 		} catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}

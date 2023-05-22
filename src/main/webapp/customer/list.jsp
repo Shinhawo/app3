@@ -74,12 +74,14 @@
 						<td><a href="detail.jsp?id=<%=customer.getId() %>"><%=customer.getName() %></a></td>
 						<td><%=customer.getTel() %></td>
 						<td><%=customer.getEmail() %></td>
-						<td><%=customer.getDisabled() %></td>
-<% if(customer.getDisabled().equals("No")) { %>
-						<td><a href="disable.jsp?id=<%=customer.getId() %>" class="btn btn-danger btn-xs">탈퇴처리</a></td>
-<% } else{ %>
-						<td><a href="enable.jsp?id=<%=customer.getId() %>" class="btn btn-success btn-xs">복구처리</a></td>
+						<td><%="No".equals(customer.getDisabled()) ? "<span class='badge text-bg-success'>사용중</span>" : "<span class='badge text-bg-secondary'>탈퇴</span>" %></td>
+						<td>
+<% if("No".equals(customer.getDisabled())) { %>
+						<a href="disable.jsp?id=<%=customer.getId() %>" class="btn btn-outline-danger btn-xs">탈퇴처리</a>
+<% } else if("Yes".equals(customer.getDisabled())){ %>
+						<a href="enable.jsp?id=<%=customer.getId() %>" class="btn btn-outline-success btn-xs">복구처리</a>
 <% } %>
+					</td>
 					</tr>
 <%
 	}

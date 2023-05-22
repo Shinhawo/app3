@@ -18,8 +18,22 @@
 	customer.setTel(tel);
 	customer.setEmail(email);
 	
+	
 	//업무로직 수행 - 새 회원정보를 db에 저장시킨다.
 	CustomerDao dao = new CustomerDao();
+	
+	if(dao.getCustomerById(id) != null){	//아이디 중복
+		response.sendRedirect("form.jsp?err=id");
+		return;
+	}
+	
+	
+	Customer customerEmail = dao.getCustomerByEmail(email);
+	if(dao.getCustomerByEmail(email) != null){	//이메일 중복
+		response.sendRedirect("form.jsp?err=email");
+		return;
+	}
+	
 	dao.insertCustomer(customer);
 	
 	//재요청 URL응답

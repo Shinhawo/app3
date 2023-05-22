@@ -2,6 +2,7 @@ package dao;
 
 import java.util.List;
 
+import VO.Category;
 import VO.Product;
 import util.DaoHelper;
 
@@ -34,7 +35,8 @@ public class ProductDao {
 		
 		DaoHelper.update("productDao.insertProduct", product.getName(),product.getMaker(),
 													 product.getDesciption(), product.getPrice(),
-													 product.getDiscountPrice(), product.getStock());
+													 product.getDiscountPrice(), product.getStock(), 
+													 product.getCategory().getNo());
 	}
 	
 	/**
@@ -57,9 +59,25 @@ public class ProductDao {
 			product.setCreateDate(rs.getDate("product_create_date"));
 			product.setUpdateDate(rs.getDate("product_update_date"));
 			
+			Category cat = new Category();
+			cat.setNo(rs.getInt("cat_no"));
+			cat.setName(rs.getString("cat_name"));
+			product.setCategory(cat);
+			
 			return product;
 		}, no);
 	}
+	
+	
+	public void updateProduct(Product product) {
+		
+		DaoHelper.update("productDao.updateProduct", product.getName(), product.getMaker(),
+													 product.getDesciption(), product.getPrice(),
+													 product.getDiscountPrice(), product.getOnSell(),
+													 product.getStock(), product.getCategory().getNo(),
+													 product.getNo());
+	}
+	
 	
 	/**
 	 * 전달받은 상품정보에 해당하는 상품정보를 삭제한다.

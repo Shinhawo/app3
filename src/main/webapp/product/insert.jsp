@@ -1,3 +1,4 @@
+<%@page import="VO.Category"%>
 <%@page import="dao.ProductDao"%>
 <%@page import="VO.Product"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
@@ -7,6 +8,7 @@
 
 <%
 	// 요청파라미터 조회
+	int catNo = Integer.parseInt(request.getParameter("catNo"));
 	String name = request.getParameter("name");
 	String maker = request.getParameter("maker");
 	int amount = Integer.parseInt(request.getParameter("amount"));
@@ -20,6 +22,10 @@
 	product.setPrice(price);
 	product.setDiscountPrice((int) (product.getPrice()*0.9));
 	product.setDesciption(description);
+	
+	// 번호만 받는 생성자
+	product.setCategory(new Category(catNo));
+	
 	
 	// 업무로직 수행 - 새 상품정보를 db에 저장시킨다.
 	ProductDao dao = new ProductDao();
