@@ -1,13 +1,23 @@
 <%@page import="VO.Product"%>
+<%@page import="dto.Pagination"%>
+<%@page import="util.StringUtils"%>
 <%@page import="java.util.List"%>
 <%@page import="dao.ProductDao"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
-	// 요청 파라미터 조회 => 없는디요
-	
-	// 업무로직 수행 - 전체 상품목록 조회
-	ProductDao dao = new ProductDao();
-	List<Product> productList = dao.getProducts();
+   // 요청 URL - http://localhost/app3/product/list.jsp
+   // 요청 URL - http://localhost/app3/product/list.jsp?page=3
+   int pageNo = StringUtils.stringToInt(request.getParameter("page"), 1);
+
+   ProductDao productDao = new ProductDao();
+   // 전체 데이터 개수 조회하기
+   int totalRows = productDao.getTotalRows();
+   
+   Pagination pagination = new Pagination(pageNo, totalRows);
+   
+   // 데이터 조회하기
+   List<Product> productList = productDao.getProducts(pagination.getBegin(), pagination.getEnd());
+   
 %>
 <!doctype html>
 <html lang="ko">
@@ -20,64 +30,79 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-	<div class="container">
-		<ul class="navbar-nav me-auto">
-			<li class="nav-item"><a class="nav-link" href="/app3/home.jsp">홈</a></li>
-			<li class="nav-item"><a class="nav-link active" href="/app3/product/list.jsp">상품관리</a></li>
-			<li class="nav-item"><a class="nav-link " href="/app3/customer/list.jsp">고객 관리</a></li>
-			<li class="nav-item"><a class="nav-link " href="">게시판 관리</a></li>
-		</ul>
-	</div>
-</nav>
+<%@ include file="../nav.jsp" %>
 <div class="container my-3">
-	<div class="row mb-3">
-		<div class="col-12">
-			<h1 class="border bg-light fs-4 p-2">전체 상품 리스트</h1>
-		</div>
-	</div>
-	<div class="row mb-3">
-		<div class="col-12">
-			<p>전체 상품 목록을 확인하세요.</p>
-			<table class="table table-sm">
-				<colgroup>
-					<col width="10%">
-					<col width="30%">
-					<col width="20%">
-					<col width="20%">
-					<col width="20%">
-				</colgroup>
-				<thead>
-					<tr>
-						<th>번호</th>
-						<th>상품명</th>
-						<th>제조사</th>
-						<th>가격</th>
-						<th>할인가격</th>
-					</tr>
-				</thead>
-				<tbody>
+   <div class="row mb-3">
+      <div class="col-12">
+         <h1 class="border bg-light fs-4 p-2">전체 상품 리스트</h1>
+      </div>
+   </div>
+   <div class="row mb-3">
+      <div class="col-12">
+         <p>전체 상품 목록을 확인하세요.</p>
+         <table class="table table-sm">
+            <colgroup>
+               <col width="10%">
+               <col width="30%">
+               <col width="20%">
+               <col width="20%">
+               <col width="20%">
+            </colgroup>
+            <thead>
+               <tr>
+                  <th>번호</th>
+                  <th>상품명</th>
+                  <th>제조사</th>
+                  <th>가격</th>
+                  <th>할인가격</th>
+               </tr>
+            </thead>
+            <tbody>
 <%
-	for(Product product : productList){
-%>
-					<tr>
-						<td><%=product.getNo() %></td>
-						<td><a href="detail.jsp?no=<%=product.getNo() %>" class="text-black text-decoration-none"><%=product.getName() %></a></td>
-						<td><%=product.getMaker() %></td>
-						<td><%=product.getPrice() %>원</td>
-						<td><%=product.getDiscountPrice() %>원</td>
-					</tr>
+   for (Product product : productList) {
+%>            
+            
+               <tr>
+                  <td><%=product.getNo() %></td>
+                  <td><a href="detail.jsp?no=<%=product.getNo() %>" class="text-black text-decoration-none"><%=product.getName() %></a></td>
+                  <td><%=product.getMaker() %></td>
+                  <td><%=product.getPrice() %> 원</td>
+                  <td><%=product.getDiscountPrice() %> 원</td>
+               </tr>
 <%
-	} 
+   }
 %>
-				</tbody>
-			</table>
-			
-			<div class="text-end">
-				<a href="form.jsp" class="btn btn-primary btn-sm">새 상품 등록</a>
-			</div>
-		</div>
-	</div>
+               
+            </tbody>
+         </table>
+         
+         <nav>
+            <ul class="pagination justify-content-center">
+               <li class = "page-item <%=pageNo <= 1 ? "disabled" : "" %>">
+                  <a href="list.jsp?page=<%=pageNo - 1 %>" class="page-link">이전</a>
+               </li>
+<% 
+   for (int num = pagination.getBeginPage(); num <= pagination.getEndPage(); num++) { 
+%>               
+               <li class = "page-item <%=pageNo == num ? "active" : "" %>">
+                  <a href="list.jsp?page=<%=num %>" class="page-link"><%=num %></a>
+               </li> 
+<%
+   }
+%>         
+               
+               <li class = "page-item <%=pageNo >= pagination.getTotalPages() ? "disabled" : "" %>">
+                  <a href="list.jsp?page=<%=pageNo + 1 %>" class="page-link">다음</a>
+               </li>
+            </ul>
+         </nav>
+         
+         <div class="text-end">
+            <a href="form.jsp" class="btn btn-primary btn-sm">새 상품 등록</a>
+         </div>
+         
+      </div>
+   </div>
 </div>
 </body>
 </html>

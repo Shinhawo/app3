@@ -31,16 +31,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-	<div class="container">
-		<ul class="navbar-nav me-auto">
-			<li class="nav-item"><a class="nav-link" href="/app3/home.jsp">홈</a></li>
-			<li class="nav-item"><a class="nav-link active" href="/app3/product/list.jsp">상품관리</a></li>
-			<li class="nav-item"><a class="nav-link disabled" href="">고객 관리</a></li>
-			<li class="nav-item"><a class="nav-link disabled" href="">게시판 관리</a></li>
-		</ul>
-	</div>
-</nav>
+<%@ include file="../nav.jsp" %>
 <div class="container my-3">
 	<div class="row mb-3">
 		<div class="col-12">
