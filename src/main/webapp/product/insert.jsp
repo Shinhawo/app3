@@ -1,6 +1,6 @@
-<%@page import="VO.Category"%>
+<%@page import="vo.Category"%>
 <%@page import="dao.ProductDao"%>
-<%@page import="VO.Product"%>
+<%@page import="vo.Product"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%-- 저장만하는 update, delete, insert 등은 디자인이 필요없음  
 	 따라서 다 지우고 이렇게만 한다.

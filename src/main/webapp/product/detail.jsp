@@ -1,4 +1,7 @@
-<%@page import="VO.Product"%>
+<%@page import="vo.Review"%>
+<%@page import="java.util.List"%>
+<%@page import="dao.ReviewDao"%>
+<%@page import="vo.Product"%>
 <%@page import="dao.ProductDao"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
@@ -9,7 +12,14 @@
 	
 	// 업무로직 수행 - 요청 파라미터로 전달받은 상품번호에 해당하는 상품 상세정보 조회하기
 	ProductDao dao = new ProductDao();
+	ReviewDao reviewDao = new ReviewDao();
+	// 상품 상세정보 조회하기
 	Product product = dao.getProductByNo(no);
+	// 해당 상품의 모든 리뷰목록 조회하기
+	List<Review> reviewliList = reviewDao.getReviewsByProductNo(no);
+	
+	// 세션에서 로그인된 사용자 정보 조회하기
+	String loginId = (String) session.getAttribute("loginId");
 %>
 <!doctype html>
 <html lang="ko">
@@ -18,11 +28,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body>
-<%@ include file="../nav.jsp" %>
+<jsp:include page="../nav.jsp">
+	<jsp:param name="menu" value="상품"/>
+</jsp:include>
+
 <div class="container my-3">
 	<div class="row mb-3">
 		<div class="col-12">
@@ -43,9 +57,9 @@
 				<tbody>
 					<tr>
 						<th>상품이름</th>
-						<td><strong class="text-danger"><%=product.getName() %></strong></td>
+						<td><strong><%=product.getName() %></strong></td>
 						<th>카테고리</th>
-						<td><%=product.getCategory().getName() %></td>
+						<td><strong><%=product.getCategory().getName() %></strong></td>
 					</tr>
 					<tr>
 						<th>상품번호</th>
@@ -55,13 +69,13 @@
 					</tr>
 					<tr>
 						<th>할인가격</th>
-						<td><strong class="text-danger"><%=product.getDiscountPrice() %> </strong>원</td>
+						<td><strong class="text-danger"><%=product.getDiscountPrice() %></strong> 원</td>
 						<th>가격</th>
 						<td><span class="text-decoration-line-through"><%=product.getPrice() %></span> 원</td>
 					</tr>
 					<tr>
 						<th>판매여부</th>
-						<td><%="Y".equals(product.getOnSell())? "판매중" : "판매종료" %></td>
+						<td><%="Y".equals(product.getOnSell()) ? "판매중" : "판매종료" %></td>
 						<th>재고수량</th>
 						<td><%=product.getStock() %></td>
 					</tr>
@@ -69,7 +83,7 @@
 						<th>수정일자</th>
 						<td><%=product.getUpdateDate() %></td>
 						<th>등록일자</th>
-						<td><%=product.getCreateDate()%></td>
+						<td><%=product.getCreateDate() %></td>
 					</tr>
 					<tr>
 						<th>상품설명</th>
@@ -78,31 +92,53 @@
 				</tbody>
 			</table>
 			<div class="text-end">
-			<!-- 
-				현재 URL = http://localhost/app3/product/detail.jsp?n0=xxx
-				
-				삭제 URL = http://localhost/app3/product/delete.jsp
-			 -->
 				<a href="delete.jsp?no=<%=product.getNo() %>" class="btn btn-danger btn-sm">삭제</a>
-			
-				
-			<!-- 
-				현재 URL = http://localhost/app3/product/detail.jsp?n0=xxx
-				
-				수정 URL = http://localhost/app3/product/update.jsp
-			 -->	
 				<a href="modifyform.jsp?no=<%=product.getNo() %>" class="btn btn-warning btn-sm">수정</a>
-				
-				
-			<!-- 
-				현재 URL = http://localhost/app3/product/detail.jsp?n0=xxx
-				
-				목록 URL = http://localhost/app3/product/list.jsp
-			 -->
 				<a href="list.jsp" class="btn btn-primary btn-sm">목록</a>
 			</div>
 		</div>
 	</div>
+	<div class="row mb-3">
+		<div class= "col-12">
+		<form class="border bg-light p-2" method="post" action="insertReview.jsp">
+			 <input type="hidden" name="productNo" value="<%=product.getNo() %>" />	
+	         <div class="row">
+	            <div class="col-11">
+	               <textarea rows="2" class="form-control" name="content"></textarea>
+	            </div>
+	            <div class="col-1">
+	               <button class="btn btn-outline-primary h-100">등록</button>
+	            </div>
+	         </div>
+      </form>      
+	</div>
+	</div>
+	<div class="row mb-3">
+		<div class="col-12">
+<%
+	for(Review review : reviewliList){
+%>		
+			<div class="border p-2 mb-2">
+               <div class="d-flex justify-content-between mb-1">
+                  <span><%=review.getCustomer().getName() %></span> <span class="text-muted"><%=review.getCreateDate() %></span>
+               </div>
+               <div>
+                  <%=review.getContent() %>
+<% 
+	if (review.getCustomer().getId().equals(loginId)) {
+%>
+                  <a href="deleteReview.jsp?no=<%=no %>&rno=<%=review.getNo() %>" 
+                     class="btn btn-link text-danger text-decoration-none float-end"><i class="bi bi-trash"></i></a>
+<%
+	}
+%>
+               </div>            
+            </div>
+<%
+	}
+%>
+		</div>		
+	</div>		
 </div>
 </body>
 </html>

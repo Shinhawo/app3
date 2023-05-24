@@ -4,8 +4,8 @@ package dao;
 
 import java.util.List;
 
-import VO.Customer;
 import util.DaoHelper;
+import vo.Customer;
 
 public class CustomerDao {
 	

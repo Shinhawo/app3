@@ -2,8 +2,8 @@ package dao;
 
 import java.util.List;
 
-import VO.Category;
 import util.DaoHelper;
+import vo.Category;
 
 public class CategoryDao {
 	

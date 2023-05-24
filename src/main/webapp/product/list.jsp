@@ -1,4 +1,4 @@
-<%@page import="VO.Product"%>
+<%@page import="vo.Product"%>
 <%@page import="dto.Pagination"%>
 <%@page import="util.StringUtils"%>
 <%@page import="java.util.List"%>
@@ -30,7 +30,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body>
-<%@ include file="../nav.jsp" %>
+<jsp:include page="../nav.jsp">
+	<jsp:param name="menu" value="상품"/>
+</jsp:include>
 <div class="container my-3">
    <div class="row mb-3">
       <div class="col-12">

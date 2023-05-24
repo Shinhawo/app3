@@ -1,6 +1,6 @@
 <%--폼에서 입력받은 고객정보를 저장시킨다.registered를 재요청한다. --%>
 <%@page import="dao.CustomerDao"%>
-<%@page import="VO.Customer"%>
+<%@page import="vo.Customer"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
 	// 고객의 회원가입 기능을 구현하세요.

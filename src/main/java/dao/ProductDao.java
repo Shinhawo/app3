@@ -2,9 +2,9 @@ package dao;
 
 import java.util.List;
 
-import VO.Category;
-import VO.Product;
 import util.DaoHelper;
+import vo.Category;
+import vo.Product;
 
 public class ProductDao {
 	

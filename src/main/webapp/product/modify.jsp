@@ -1,6 +1,6 @@
-<%@page import="VO.Product"%>
+<%@page import="vo.Product"%>
 <%@page import="dao.ProductDao"%>
-<%@page import="VO.Category"%>
+<%@page import="vo.Category"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	// 요청 파라미터값 조회

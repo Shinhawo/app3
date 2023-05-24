@@ -1,4 +1,4 @@
-<%@page import="VO.Customer"%>
+<%@page import="vo.Customer"%>
 <%@page import="dao.CustomerDao"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%

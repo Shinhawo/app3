@@ -1,5 +1,5 @@
 <%@page import="dao.CustomerDao"%>
-<%@page import="VO.Customer"%>
+<%@page import="vo.Customer"%>
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%
 	// 요청 URL - http://localhost/app3/customer/detail.jsp?id=xxx
@@ -29,7 +29,9 @@
 </style>
 </head>
 <body>
-<%@ include file="../nav.jsp" %>
+<jsp:include page="../nav.jsp">
+	<jsp:param name="menu" value="고객"/>
+</jsp:include>
 <div class="container my-3">
 	<div class="row mb-3">
 		<div class="col-12">
