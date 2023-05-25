@@ -60,6 +60,32 @@ public class BoardDao {
 		return DaoHelper.selectOne("boardDao.getTotalRows", rs -> {
 			return rs.getInt("cnt");
 		});
-		
 	}
+	
+	
+	public void updateBoard(Board board) {
+		
+		DaoHelper.update("boardDao.updateBoard", board.getTitle(),
+												 board.getContent(),
+												 board.getCommentCnt(),
+												 board.getReadCnt(),
+												 board.getDeleted(),
+												 board.getNo());
+	}
+	
+	
+	public void deleteBoardByNo(int no) {
+		
+		DaoHelper.update("commentDao.deleteCommentBYNo", no);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

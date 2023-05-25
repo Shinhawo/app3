@@ -8,10 +8,9 @@
 	// 요청 URL - http://localhost/app3/board/list.jsp
 	// 요청 URL - http://localhost/app3/board/list.jsp?page=3
 	int pageNo = StringUtils.stringToInt(request.getParameter("page"),1);
-	
-	// 업무로직 수행 - 전체 게시글 목록 조회
-	BoardDao boardDao = new BoardDao();
+		
 	// 전체 데이터 개수 조회
+	BoardDao boardDao = new BoardDao();
 	int totalRows = boardDao.getTotalRows();
 	
 	Pagination pagination = new Pagination(pageNo, totalRows);
@@ -68,7 +67,7 @@
 %>
 					<tr>
 						<td><%=board.getNo() %></td>
-						<td><a href="detail.jsp?no=<%=board.getNo() %>"><%=board.getTitle() %></a></td>
+						<td><a href="read.jsp?no=<%=board.getNo() %>"><%=board.getTitle() %></a></td>
 						<td><%=board.getCustomer().getName() %></td>
 						<td><%=board.getCommentCnt() %></td>
 						<td><%=board.getCreateDate() %></td>
@@ -81,21 +80,21 @@
 			<nav>
 				<ul class="pagination justify-content-center">
 					<li class="page-item <%=pageNo <= 1 ? "disabled" : ""%>">
-						<a href="list.jsp?page=1" class="page-link">이전</a>
+						<a href="list.jsp?page=<%=pageNo - 1 %>" class="page-link">이전</a>
 					</li>
+<%
+	for(int num = pagination.getBeginPage() ; num <= pagination.getEndPage(); num++) {
+%>	
 					
-					<li class="page-item active">
-						<a href="list.jsp?page=1" class="page-link">1</a>
+					<li class = "page-item <%=pageNo == num ? "active" : "" %>">
+						<a href="list.jsp?page=<%=num %>" class="page-link"><%=num %></a>
 					</li>
-					<li class="page-item">
-						<a href="list.jsp?page=2" class="page-link">2</a>
-					</li>
-					<li class="page-item">
-						<a href="list.jsp?page=3" class="page-link">3</a>
-					</li>
+<%
+	}
+%>
 					
 					<li class="page-item <%=pageNo >= pagination.getTotalPages() ? "disabled" : ""%>">
-						<a href="list.jsp?page=2" class="page-link">다음</a>
+						<a href="list.jsp?page=<%=pageNo + 1 %>" class="page-link">다음</a>
 					</li>
 				</ul>
 			</nav>
