@@ -42,7 +42,8 @@
 	<div class="row mb-3">
 		<div class="col-12">
 			<p>게시글을 수정하세요</p>
-			<form class="border bg-light p-3" method="post" action="modify.jsp">
+		
+			<form class="border bg-light p-3" method="post" action="modify.jsp" >
 				<input type="hidden" name="no" value="<%=no %>">
 				
 				
@@ -55,7 +56,7 @@
 					<label class="form-label">내용</label>
 					<textarea rows="15" class="form-control" name="content"><%=board.getContent() %></textarea>
 				</div>
-				
+
 				<div class="text-end">
 					<button type="reset" class="btn btn-secondary btn-sm">취소</button>
 					<button type="submit" class="btn btn-primary btn-sm">수정</button>

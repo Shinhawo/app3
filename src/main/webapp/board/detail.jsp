@@ -98,14 +98,26 @@
 						<th class="table-dark">최종수정일자</th>
 						<td><%=board.getUpdateDate() %></td>
 					</tr>
+					<tr>
+						<th class="table-dark">첨부파일</th>
+						<td colspan="3">
+						
+<%
+	if (board.getFilename() != null) {
+%>
+							<%=board.getOriginalFilename() %>
+							<a href="download?no=<%=board.getNo() %>" class="btn btn-outline-primary btn-xs ms-3">다운로드</a>
+<%
+	}
+%>
+						</td>
+					</tr>
+					<tr>
+						<th class="table-dark">내용</th>
+						<td colspan="3" style="" height="100px;"><%=board.getContent() %></td>
+					</tr>
 				</tbody>
 			</table>
-			<div class="border bg-light fs-5 p-2">게시물 내용</div>
-			<div class="border p-2 mb-2">
-               <div class="d-flex justify-content-between mb-1">
-					<%=board.getContent() %>
-				</div>
-			</div>
 			<div class="text-end">
 <%
 	if (board.getCustomer().getId().equals(loginId)) {

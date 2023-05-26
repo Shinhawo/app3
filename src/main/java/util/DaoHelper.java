@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,16 +14,12 @@ import java.util.Properties;
 
 public class DaoHelper {
 	
-	// Properties객체는 properties파일을 다루는 객체다.
 	private static Properties prop = new Properties();
 	
-	// static 초기화 블록
-	// 클래스파일(설계도)가 메모리에 로딩될 때 실행할 작업을 작성하는 코드블록이다.
 	static {
 		try {
-			// DaoHelper 클래스가 메모리에 로딩될 때
-			// Properties객체가 sql.properties 파일을 로딩한다.
-			prop.load(new FileInputStream("C:\\Users\\jhta\\git\\app3\\src\\main\\java\\dao\\sql.properties"));
+			String projectPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+			prop.load(new FileInputStream(projectPath + "/dao/sql.properties"));
 		} catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}
@@ -122,6 +119,8 @@ public class DaoHelper {
 					pstmt.setLong(index, (Long) param);
 				} else if (param instanceof Double) {
 					pstmt.setDouble(index, (Double) param);
+				} else {
+					pstmt.setNull(index, Types.NULL);
 				}
 				index++;
 			}
